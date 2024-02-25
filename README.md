@@ -23,7 +23,7 @@
     - Unsubscribed to the onAuthStateChanged callback
     - Added strings to constants
     - Add hardcoded values to the constants file
-    - Regiter TMDB API & create an app & get access token
+    - Regiter TMDB API & create an app & get access token (anchal15091995@gmail.com)
     - Get Data from TMDB now playing movies list API
     - Custom Hook for Now Playing Movies
     - Create movieSlice
@@ -60,3 +60,7 @@
     - NetflixGPT
         - Search Bar
         - Movie Suggestions
+
+# Project Setup
+
+    - Before starting the project please add .env file and add TMDB and OPENAI KEY into it.
