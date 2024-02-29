@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import lang from "../../utils/languageConstants";
 import { useDispatch, useSelector } from "react-redux";
 import { searchMovieTMDB, getGPTMoviesFromSearch } from "../../utils/api/gptApi";
@@ -7,10 +7,17 @@ import { addGptMovieResult } from "../../utils/slices/gptSlice";
 const GPTSearchBar = () => {
   const langKey = useSelector((store) => store.config.lang);
   const searchTextRef = useRef(null);
+  const openAiRef = useRef(null);
   const dispatch = useDispatch();
+  const [errMsg, setErrMsg] = useState(null);
 
   const handleGPTSearchClick = async () => {
-    const gptMovieResults = await getGPTMoviesFromSearch(searchTextRef.current.value);
+    if (!searchTextRef.current.value || !openAiRef.current.value) {
+      setErrMsg("Please provide values for both the fields");
+      return;
+    }
+    setErrMsg(null);
+    const gptMovieResults = await getGPTMoviesFromSearch(searchTextRef.current.value, openAiRef.current.value);
 
     if (!gptMovieResults) {
       // TODO: Write Error Handling
@@ -33,15 +40,23 @@ const GPTSearchBar = () => {
   };
 
   return (
-    <div className="pt-[10%] flex justify-center">
-      <form className="w-1/2 bg-black grid grid-cols-12" onSubmit={(e) => e.preventDefault()}>
+    <div className="pt-[50%] md:pt-[10%] flex justify-center ">
+      <form className="w-full md:w-5/12 p-12 bg-black  flex-col bg-opacity-90" onSubmit={(e) => e.preventDefault()}>
         <input
           type="text"
-          className="p-4 m-4 col-span-9"
+          className="p-4 w-full rounded-sm"
           placeholder={lang[langKey].gptSearchPlaceholder}
           ref={searchTextRef}
         />
-        <button className="m-4 py-2 px-4 bg-red-700 text-white rounded-lg col-span-3" onClick={handleGPTSearchClick}>
+        <input
+          type="text"
+          className="p-4 my-2 w-full rounded-sm"
+          placeholder={lang[langKey].openAiKey}
+          ref={openAiRef}
+        />
+
+        <p className="text-red-500 font-bold text-lg py-2">{errMsg}</p>
+        <button className="my-4 py-2 px-4 bg-red-700 text-white rounded-lg float-right" onClick={handleGPTSearchClick}>
           {lang[langKey].search}
         </button>
       </form>
