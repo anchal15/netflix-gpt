@@ -1,20 +1,17 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import useMovieTrailer from "../hooks/useMovieTrailer";
+import ErrorContainer from "./ErrorContainer";
+import MovieContainer from "./MovieContainer";
 
 const VideoBackground = ({ movieId }) => {
   const trailerVideo = useSelector((store) => store.movies?.trailerVideo);
+  const errMsg = useSelector((store) => store.error?.errorMessage);
   useMovieTrailer(movieId);
-  return (
-    <div className=" w-screen">
-      <iframe
-        className="w-screen aspect-video"
-        src={"https://www.youtube.com/embed/" + trailerVideo?.key + "?&autoplay=1&mute=1"}
-        title="YouTube video player"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      ></iframe>
-    </div>
-  );
+  if (errMsg) {
+    return <ErrorContainer />;
+  }
+  return <MovieContainer videoKey={trailerVideo?.key} />;
 };
 
 export default VideoBackground;

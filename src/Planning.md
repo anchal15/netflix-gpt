@@ -21,3 +21,7 @@
     GPT Search
         - GPT Search Bar
         - GPT Movie Suggestions
+
+Future:
+Add Mute button for the video background
+On Hover - play the trailer

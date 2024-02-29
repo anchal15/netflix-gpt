@@ -17,9 +17,14 @@ const moviesSlice = createSlice({
     addPopularMovies: (state, action) => {
       state.popularMovies = action.payload;
     },
+    clearAllMoviesData: (state, action) => {
+      state.nowPlayingMovies = null;
+      state.trailerVideo = null;
+      state.popularMovies = null;
+    },
   },
 });
 
-export const { addNowPlayingMovies, addTrailerVideo, addPopularMovies } = moviesSlice.actions;
+export const { addNowPlayingMovies, addTrailerVideo, addPopularMovies, clearAllMoviesData } = moviesSlice.actions;
 
 export default moviesSlice.reducer;
